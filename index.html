@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>22B Checkin-inator</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/apple-touch-icon-144x144.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.21.7/css/uikit.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.21.7/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.21.7/js/uikit-icons.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.16/css/uikit.min.css" />
+</head>
+<body>
+    <div class="uk-container uk-margin-top">
+        <h2>22B Checkin-inator</h2>
+        <div id="checkin-screen" class="uk-card uk-card-default uk-card-body uk-hidden">
+            <div id="checkin-heading"></div>
+            <div>
+              <form id="table-form">
+                <div class="uk-margin-small">
+                    <h4>Select your table</h4>
+                </div>
+                <div class="uk-margin-small">
+                    <label><input class="uk-radio" type="radio" name="table" value="A" id="table-a-radio"> Table A</label>
+                </div>
+                <div class="uk-margin-small">
+                    <label><input class="uk-radio" type="radio" name="table" value="B" id="table-b-radio"> Table B</label>
+                </div>
+                <div class="uk-margin-small">
+                    <label><input class="uk-radio" type="radio" name="table" value="C" id="table-c-radio"> Table C</label>
+                </div>
+                <button disabled id="checkin-button" class="uk-button uk-button-primary uk-width-1-1 uk-margin-large-top">Check In</button>
+            </form>
+          </div>
+        </div>
+
+        <div id="done-screen" class="uk-card uk-card-default uk-card-body uk-hidden">
+          <div id="done-heading"></div>
+        </div>
+
+        <div id="reg-screen" class="uk-card uk-card-default uk-card-body uk-hidden">
+            <h3>Register</h3>
+            <form id="user-form" class="uk-form-stacked">
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="first-name">First Name</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="first-name" type="text" placeholder="First Name" autocomplete="given-name" required>
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="last-name">Last Name</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="last-name" type="text" placeholder="Last Name" autocomplete="family-name" required>
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="student-id">Student ID</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" id="student-id" type="text" placeholder="Student ID" required>
+                    </div>
+                </div>
+                <button class="uk-button uk-button-primary" type="submit">Register</button>
+            </form>
+        </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.16/js/uikit.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.6.16/js/uikit-icons.min.js"></script>
+    <script type="module" src="app.js" defer></script>
+</body>
+</html>
