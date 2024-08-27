@@ -135,7 +135,9 @@ async function checkIn(table='') {
   const authToken = localStorage.getItem('authToken');
   const d = queryParams.d;
   if (!d || !authToken) return;
-  params.body = JSON.stringify({ d, table, authToken});
+
+  const time = (new Date()).getTime();
+  params.body = JSON.stringify({ d, table, time, authToken});
 
   const response = await fetch(url, params);
   const responseObj = await response.json();
