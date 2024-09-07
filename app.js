@@ -52,7 +52,21 @@ function headingMessage(selectedTable) {
   if (selectedTable) {
     subtitle += `, Table ${selectedTable}`;
   }
-  return `<h3>${title}<br><small class="uk-text-meta">${subtitle}</small></h3>`
+
+
+  let wdString = '';
+  if (queryParams.d) {
+    const clearD = atob(queryParams.d);
+    const [quarter, weekAndDay] = clearD.split(';')
+    const [week, day] = weekAndDay.split('-');
+    wdString = `Week ${week}, Day ${day} - `;
+  }
+
+  return `
+    <h3>${title}
+      <p class="uk-text-meta uk-margin-remove-top"><span>${wdString}</span>${subtitle}</p>
+    </h3>
+  `;
 }
 
 function setupForms() {
