@@ -78,9 +78,12 @@ function setupForms() {
   // table submit
   document.getElementById('table-form').addEventListener('submit', async (event) => {
     event.preventDefault();
+    const checkinButton = document.getElementById('checkin-button');
+    checkinButton.disabled = true; 
     const selectedTableButton = document.querySelector('input[name="table"]:checked');
     const selectedTable = selectedTableButton ? selectedTableButton.value : null;
     await checkIn(selectedTable);
+    checkinButton.disabled = false; 
     doneState();
   });
 
