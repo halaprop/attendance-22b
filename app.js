@@ -11,8 +11,8 @@ startState();
 
 
 function startState() {
-  const authToken = localStorage.getItem('authToken');
-  if (authToken) {
+  const user = localStorage.getItem('user');
+  if (user) {
     if (queryParams.d) {
       checkinState();
     } else {
@@ -124,39 +124,31 @@ function showScreen(screenElement) {
 }
 
 async function login(user) {
-  const path = 'login';
-  const url = `${serverBaseURL}/${path}`;
-
-  const headers = { 'Content-Type': 'application/json' };
-  const params = { method: "POST", headers };
-  params.body = JSON.stringify(user);
-
-  const response = await fetch(url, params);
-  let authToken = null;
-  if (response.ok) {
-    authToken = await response.json(); 
-    localStorage.setItem('authToken', JSON.stringify(authToken));  
-    localStorage.setItem('user', JSON.stringify(user));
-  }
-  return authToken;
+  localStorage.setItem('user', JSON.stringify(user));
 }
 
 async function checkIn(table='') {
 
-  const path = 'checkin';
-  const url = `${serverBaseURL}/${path}`;
+  const AIRTABLE_KEY = "patNeYtMUY5syUDLV.0f148945383c23f1c0adf4f0e24865872de25f48edee4ec50f88ab1e415c484d";
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-  const headers = { 'Content-Type': 'application/json' };
-  const params = { method: "POST", headers };
-
-  const authToken = localStorage.getItem('authToken');
   const d = queryParams.d;
-  if (!d || !authToken) return;
-
   const time = (new Date()).getTime();
-  params.body = JSON.stringify({ d, table, time, authToken});
+  const firstName = user.firstName;
+  const lastName = user.lastName;
+  const studentID = user.studentID;
+
+  const record = { d, table, time, firstName, lastName, studentID };
+
+  const url = `https://api.airtable.com/v0/appQ7Fisb61XmiGXG/checkins`;
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${AIRTABLE_KEY}`
+  };
+  const params = { method: "POST", headers };
+  params.body = JSON.stringify({ records: [{ fields: record }]});
 
   const response = await fetch(url, params);
-  const responseObj = await response.json();
+  const responseObj = await response.json(); 
   return responseObj;
 }
