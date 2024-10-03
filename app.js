@@ -129,7 +129,7 @@ async function login(user) {
 
 async function checkIn(table='') {
 
-  const AIRTABLE_KEY = "patNeYtMUY5syUDLV.0f148945383c23f1c0adf4f0e24865872de25f48edee4ec50f88ab1e415c484d";
+  const AIRTABLE_KEY = "patoWcpcDZLsEtbmb.70372fed236a15534bdd0c7c0c43c5dbf58065ee09e6e91781dc6f48e375997c";
   const user = JSON.parse(localStorage.getItem('user') || '{}');
 
   const d = queryParams.d;
@@ -140,7 +140,7 @@ async function checkIn(table='') {
 
   const record = { d, table, time, firstName, lastName, studentID };
 
-  const url = `https://api.airtable.com/v0/appQ7Fisb61XmiGXG/checkins`;
+  const url = `https://api.airtable.com/v0/appeEgKyuc6u0s3T4/checkins`;
   const headers = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${AIRTABLE_KEY}`
