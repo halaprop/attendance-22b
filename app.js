@@ -24,49 +24,74 @@ function startState() {
 }
 
 function regState() {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user) {
+    // if there's a user, prefill because we are editing
+    const firstNameInput = document.getElementById('first-name');
+    const lastNameInput = document.getElementById('last-name');
+    const studentIDInput = document.getElementById('student-id');
+    firstNameInput.value = user.firstName;
+    lastNameInput.value = user.lastName;
+    studentIDInput.value = user.studentID;
+  }
+
   showScreen(regScreen);
 }
 
 function checkinState() {
+  configureCheckinHeading();
   showScreen(checkinScreen);
-
-  const checkinHeading = document.getElementById('checkin-heading');
-  checkinHeading.innerHTML = headingMessage();
 }
 
 function doneState() {
   const selectedTableButton = document.querySelector('input[name="table"]:checked');
   const selectedTable = selectedTableButton ? selectedTableButton.value : null;
 
-  const doneHeading = document.getElementById('done-heading');
-  doneHeading.innerHTML = headingMessage(selectedTable);
+  configureDoneHeading(selectedTable);
   showScreen(doneScreen);
 }
 
-function headingMessage(selectedTable) {
-  const user = JSON.parse(localStorage.getItem('user') || '{}');
-  const firstName = user.firstName?.trim() ? `, ${user.firstName.trim()}` : '';
-  const title = `Welcome${firstName}`;
-  
-  let subtitle = (new Date()).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  if (selectedTable) {
-    subtitle += `, Table ${selectedTable}`;
-  }
-
-
-  let wdString = '';
+function wdString() {
+  let result = '';
   if (queryParams.d) {
     const clearD = atob(queryParams.d);
     const [quarter, weekAndDay] = clearD.split(';')
     const [week, day] = weekAndDay.split('-');
-    wdString = `Week ${week}, Day ${day} - `;
+    result = `Week ${week}, Day ${day}`;
+  }
+  return result;
+}
+
+function configureCheckinHeading(selectedTable) {
+  const welcomeEl = document.getElementById('welcome-msg');
+  const studentIDEl = document.getElementById('welcome-msg-student-id');
+  const dateEl = document.getElementById('welcome-msg-date');
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const firstName = user.firstName?.trim() ? `, ${user.firstName.trim()}` : '';
+
+  welcomeEl.innerText = `Welcome${firstName}`;
+  studentIDEl.innerText = `(${user.studentID})`;
+  dateEl.innerText = wdString();
+}
+
+function configureDoneHeading(selectedTable) {
+  const welcomeEl = document.getElementById('done-msg');
+  const studentIDEl = document.getElementById('done-msg-student-id');
+  const dateEl = document.getElementById('done-msg-date');
+
+  const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const firstName = user.firstName?.trim() ? `, ${user.firstName.trim()}` : '';
+
+  welcomeEl.innerText = `Welcome${firstName}`;
+  studentIDEl.innerText = `(${user.studentID})`;
+  dateEl.innerText = wdString();
+  
+  if (selectedTable) {
+    const tableEl = document.getElementById('done-msg-table');
+    tableEl.innerText = `Table ${selectedTable}`;
   }
 
-  return `
-    <h3>${title}
-      <p class="uk-text-meta uk-margin-remove-top"><span>${wdString}</span>${subtitle}</p>
-    </h3>
-  `;
 }
 
 function setupForms() {
@@ -103,8 +128,11 @@ function setupForms() {
     const response = await login(user);
     startState();
   });
-}
 
+  // edit reg data
+  const editButtonEl = document.getElementById('edit-btn');
+  editButtonEl.addEventListener('click', e => regState());
+}
 
 function getQueryParams() {
   const params = {};
@@ -128,7 +156,6 @@ async function login(user) {
 }
 
 async function checkIn(table='') {
-
   const AIRTABLE_KEY = "patoWcpcDZLsEtbmb.70372fed236a15534bdd0c7c0c43c5dbf58065ee09e6e91781dc6f48e375997c";
   const user = JSON.parse(localStorage.getItem('user') || '{}');
 
@@ -151,4 +178,5 @@ async function checkIn(table='') {
   const response = await fetch(url, params);
   const responseObj = await response.json(); 
   return responseObj;
+
 }
